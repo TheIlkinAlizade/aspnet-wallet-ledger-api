@@ -4,6 +4,10 @@ public sealed class LedgerTransaction
 {
     private readonly List<LedgerEntry> entries = [];
 
+    private LedgerTransaction()
+    {
+    }
+
     private LedgerTransaction(LedgerTransactionType type, DateTimeOffset createdAt, Guid? reversalOfId)
     {
         Id = Guid.CreateVersion7();
@@ -12,10 +16,10 @@ public sealed class LedgerTransaction
         ReversalOfId = reversalOfId;
     }
 
-    public Guid Id { get; }
-    public LedgerTransactionType Type { get; }
-    public DateTimeOffset CreatedAt { get; }
-    public Guid? ReversalOfId { get; }
+    public Guid Id { get; private set; }
+    public LedgerTransactionType Type { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
+    public Guid? ReversalOfId { get; private set; }
     public IReadOnlyList<LedgerEntry> Entries => entries;
 
     public static LedgerTransaction Post(

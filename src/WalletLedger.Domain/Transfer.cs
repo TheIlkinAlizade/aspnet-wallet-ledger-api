@@ -2,6 +2,11 @@ namespace WalletLedger.Domain;
 
 public sealed class Transfer
 {
+    private Transfer()
+    {
+        Currency = null!;
+    }
+
     private Transfer(
         Guid sourceAccountId,
         Guid destinationAccountId,
@@ -12,19 +17,22 @@ public sealed class Transfer
         Id = Guid.CreateVersion7();
         SourceAccountId = sourceAccountId;
         DestinationAccountId = destinationAccountId;
-        Amount = amount;
+        AmountMinorUnits = amount.MinorUnits;
+        Currency = amount.Currency;
         LedgerTransactionId = ledgerTransactionId;
         CreatedAt = createdAt;
         Status = TransferStatus.Completed;
     }
 
-    public Guid Id { get; }
-    public Guid SourceAccountId { get; }
-    public Guid DestinationAccountId { get; }
-    public Money Amount { get; }
-    public Guid LedgerTransactionId { get; }
-    public DateTimeOffset CreatedAt { get; }
-    public TransferStatus Status { get; }
+    public Guid Id { get; private set; }
+    public Guid SourceAccountId { get; private set; }
+    public Guid DestinationAccountId { get; private set; }
+    public long AmountMinorUnits { get; private set; }
+    public Currency Currency { get; private set; }
+    public Guid LedgerTransactionId { get; private set; }
+    public DateTimeOffset CreatedAt { get; private set; }
+    public TransferStatus Status { get; private set; }
+    public Money Amount => Money.Of(AmountMinorUnits, Currency);
 
     public static Transfer Create(
         Account source,

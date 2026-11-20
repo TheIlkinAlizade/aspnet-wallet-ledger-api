@@ -2,20 +2,25 @@ namespace WalletLedger.Domain;
 
 public sealed class Account
 {
+    private Account()
+    {
+        Currency = null!;
+    }
+
     private Account(Guid id, Guid? ownerUserId, Currency currency, AccountKind kind)
     {
         Id = id;
         OwnerUserId = ownerUserId;
         Currency = currency;
         Kind = kind;
-        Balance = Money.Zero(currency);
     }
 
-    public Guid Id { get; }
-    public Guid? OwnerUserId { get; }
-    public Currency Currency { get; }
-    public AccountKind Kind { get; }
-    public Money Balance { get; private set; }
+    public Guid Id { get; private set; }
+    public Guid? OwnerUserId { get; private set; }
+    public Currency Currency { get; private set; }
+    public AccountKind Kind { get; private set; }
+    public long BalanceMinorUnits { get; private set; }
+    public Money Balance => Money.Of(BalanceMinorUnits, Currency);
     public bool AllowsNegativeBalance => Kind == AccountKind.SystemClearing;
 
     public static Account OpenForUser(Guid ownerUserId, Currency currency) =>
@@ -40,6 +45,6 @@ public sealed class Account
             throw new InsufficientFundsException(Id);
         }
 
-        Balance = newBalance;
+        BalanceMinorUnits = newBalance.MinorUnits;
     }
 }
