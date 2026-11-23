@@ -1,4 +1,9 @@
+using WalletLedger.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("Wallet")
+    ?? throw new InvalidOperationException("ConnectionStrings:Wallet is not configured.");
+builder.Services.AddInfrastructure(connectionString);
 
 // Add services to the container.
 
