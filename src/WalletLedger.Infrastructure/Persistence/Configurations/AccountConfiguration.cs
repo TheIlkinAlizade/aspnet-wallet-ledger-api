@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using WalletLedger.Domain;
+using WalletLedger.Infrastructure.Identity;
 
 namespace WalletLedger.Infrastructure.Persistence.Configurations;
 
@@ -18,6 +19,11 @@ public sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Ignore(account => account.Balance);
         builder.Ignore(account => account.AllowsNegativeBalance);
+
+        builder.HasOne<ApplicationUser>()
+            .WithMany()
+            .HasForeignKey(account => account.OwnerUserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(account => account.OwnerUserId);
         builder.HasIndex(account => new { account.Currency, account.Kind })
