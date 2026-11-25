@@ -1,28 +1,32 @@
+using WalletLedger.Api.Authentication;
+using WalletLedger.Api.Authorization;
+using WalletLedger.Api.Errors;
 using WalletLedger.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("Wallet")
-    ?? throw new InvalidOperationException("ConnectionStrings:Wallet is not configured.");
-builder.Services.AddInfrastructure(connectionString);
 
-// Add services to the container.
-
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddJwtAuthentication();
+builder.Services.AddWalletAuthorization();
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi().AllowAnonymous();
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
+
+public partial class Program;
