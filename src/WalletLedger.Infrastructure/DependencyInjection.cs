@@ -4,8 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WalletLedger.Application.Auth;
 using WalletLedger.Application.Accounts;
+using WalletLedger.Application.Ledger;
 using WalletLedger.Infrastructure.Accounts;
 using WalletLedger.Infrastructure.Identity;
+using WalletLedger.Infrastructure.Ledger;
 using WalletLedger.Infrastructure.Persistence;
 
 namespace WalletLedger.Infrastructure;
@@ -32,7 +34,8 @@ public static class DependencyInjection
         services.AddSingleton<TokenService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAccountService, AccountService>();
-
+        services.AddScoped<IMoneyMovementService, MoneyMovementService>();
+        
         return services;
     }
 

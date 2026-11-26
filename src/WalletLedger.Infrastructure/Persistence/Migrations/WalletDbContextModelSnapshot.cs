@@ -201,6 +201,50 @@ namespace WalletLedger.Infrastructure.Persistence.Migrations
                         {
                             t.HasCheckConstraint("CK_Accounts_NonNegativeBalance", "\"BalanceMinorUnits\" >= 0 OR \"Kind\" = 'SystemClearing'");
                         });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000001"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "AZN",
+                            Kind = "SystemClearing"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000002"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "AZN",
+                            Kind = "SystemHold"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000003"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "USD",
+                            Kind = "SystemClearing"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000004"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "USD",
+                            Kind = "SystemHold"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000005"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "EUR",
+                            Kind = "SystemClearing"
+                        },
+                        new
+                        {
+                            Id = new Guid("00000000-0000-0000-0001-000000000006"),
+                            BalanceMinorUnits = 0L,
+                            Currency = "EUR",
+                            Kind = "SystemHold"
+                        });
                 });
 
             modelBuilder.Entity("WalletLedger.Domain.LedgerEntry", b =>

@@ -29,5 +29,6 @@ public sealed class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.HasIndex(account => new { account.Currency, account.Kind })
             .HasFilter("\"Kind\" <> 'User'")
             .IsUnique();
+        builder.HasData(SystemAccountSeed.Rows());
     }
 }
