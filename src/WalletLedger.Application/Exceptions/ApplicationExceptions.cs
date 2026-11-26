@@ -8,3 +8,5 @@ public sealed class RequestValidationException(IReadOnlyList<string> errors) : E
 {
     public IReadOnlyList<string> Errors { get; } = errors;
 }
+
+public sealed class NotFoundException(string message) : Exception(message);

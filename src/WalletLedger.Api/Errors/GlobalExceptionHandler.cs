@@ -34,6 +34,7 @@ public sealed class GlobalExceptionHandler(
         {
             AuthenticationFailedException => Create(StatusCodes.Status401Unauthorized, "Authentication failed."),
             ConflictException conflict => Create(StatusCodes.Status409Conflict, "Conflict.", conflict.Message),
+            NotFoundException => Create(StatusCodes.Status404NotFound, "Resource not found."),
             RequestValidationException => Create(StatusCodes.Status400BadRequest, "Validation failed."),
             DomainException domain => Create(StatusCodes.Status422UnprocessableEntity, "Business rule violated.", domain.Message),
             _ => Create(StatusCodes.Status500InternalServerError, "An unexpected error occurred.")

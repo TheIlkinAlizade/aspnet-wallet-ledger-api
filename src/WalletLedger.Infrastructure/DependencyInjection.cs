@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WalletLedger.Application.Auth;
+using WalletLedger.Application.Accounts;
+using WalletLedger.Infrastructure.Accounts;
 using WalletLedger.Infrastructure.Identity;
 using WalletLedger.Infrastructure.Persistence;
 
@@ -29,6 +31,7 @@ public static class DependencyInjection
 
         services.AddSingleton<TokenService>();
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAccountService, AccountService>();
 
         return services;
     }
