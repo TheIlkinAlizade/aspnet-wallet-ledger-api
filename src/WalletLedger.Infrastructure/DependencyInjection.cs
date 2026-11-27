@@ -9,6 +9,8 @@ using WalletLedger.Infrastructure.Accounts;
 using WalletLedger.Infrastructure.Identity;
 using WalletLedger.Infrastructure.Ledger;
 using WalletLedger.Infrastructure.Persistence;
+using WalletLedger.Application.Transfers;
+using WalletLedger.Infrastructure.Transfers;
 
 namespace WalletLedger.Infrastructure;
 
@@ -35,6 +37,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IMoneyMovementService, MoneyMovementService>();
+        services.AddScoped<ITransferService, TransferService>();
         
         return services;
     }
